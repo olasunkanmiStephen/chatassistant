@@ -1,18 +1,18 @@
-const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
-const OPENAI_API_URL = import.meta.env.VITE_OPENAI_API_URL
+const API_KEY = import.meta.env.VITE_API_KEY;
+const API_URL = import.meta.env.VITE_API_URL
 
 
 export async function generateResponse (message){
-    if(!OPENAI_API_KEY){
+    if(!API_KEY){
         throw new Error('API KEY not defined');
     };
 
     try {
-        const res = await fetch(OPENAI_API_URL, {
+        const res = await fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${OPENAI_API_KEY}`,
+                "Authorization": `Bearer ${API_KEY}`,
             },
             body: JSON.stringify({
                 model: "gpt-4.1-nano",
