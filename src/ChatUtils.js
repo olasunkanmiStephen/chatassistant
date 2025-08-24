@@ -6,9 +6,9 @@ export const getRandomResponse = () => {
         "Great question: The answer depends on several factors...",
     ];
 
-    return botResponses[Math.float(Math.random() = botResponses.length)];
+    return botResponses[Math.floor(Math.random() * botResponses.length)];
 }
 
 export const formatTime = (date) => {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'})
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 };
