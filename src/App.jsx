@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Header from "./component/Headerr.jsx";
 import ChatMessage from "./component/ChatMessage.jsx";
-import { formatTime, getRandomResponse } from "./ChatUtils.js";
+import { formatTime } from "./ChatUtils.js";
 import Loading from "./component/Loading.jsx";
 import ChatInput from "./component/ChatInput.jsx";
+import { generateResponse } from "./services/openai.js";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -36,7 +37,7 @@ const App = () => {
     setTimeout(() => {
       const botMessage = {
         id: (Date.now() + 1).toString(),
-        text: getRandomResponse(input),
+        text: generateResponse(input),
         sender: "bot",
         timestamp: new Date(),
       };
@@ -45,6 +46,8 @@ const App = () => {
       setIsLoading(false);
     }, 1500);
   };
+
+  
   return (
     <div className="flex flex-col h-screen ">
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />

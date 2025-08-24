@@ -1,5 +1,5 @@
 import { Bot, Moon, Sparkles, Sun } from 'lucide-react'
-import React from 'react'
+
 
 const Header = ({darkMode, toggleDarkMode}) => {
   return (
@@ -10,10 +10,8 @@ const Header = ({darkMode, toggleDarkMode}) => {
           <div className="p-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full">
             <Bot className="h-6 w-6 text-white" />
           </div>
-          <h1 className="text-xl font-bold">ZIORA ASSISTANT</h1>
+          <h1 className="text-xl font-bold">ZIO</h1>
         </div>
-
-        {/* Right section */}
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-1 px-3 py-1 rounded text-sm font-medium bg-gray-100">
             <Sparkles className={`${darkMode ? 'text-indigo-400' : 'text-indigo-600'} h-4 w-4`} />
