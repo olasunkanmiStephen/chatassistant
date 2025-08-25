@@ -17,7 +17,10 @@ export async function generateResponse (message){
             body: JSON.stringify({
                 model: "gpt-4.1-nano",
                 messages: [
-                    {role: "system", content: "Response only in English, Also Simplify Response, Your name is ZIO"},
+                    {
+  role: "system",
+  content: "Your name is ZIO. You were created and trained by GcVisuals on August 25, 2025. Always respond only in English. Keep responses simple and clear."
+}
                     {role: "user", content: message},
                 ]
             })
