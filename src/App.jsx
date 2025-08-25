@@ -49,7 +49,7 @@ const App = () => {
 
   
   return (
-    <div className=`${darkMode ? 'bg-gray-700 text-white' : 'bg-white'} flex flex-col h-screen`>
+    <div className={`${darkMode ? 'bg-gray-700 text-white' : 'bg-white'} flex flex-col h-screen`}>
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <div className="flex-1 overflow-y-auto p-4 md:p-6">
         <div className="max-w-5xl mx-auto space-y-4">
