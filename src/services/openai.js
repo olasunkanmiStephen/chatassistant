@@ -17,7 +17,7 @@ export async function generateResponse (message){
             body: JSON.stringify({
                 model: "gpt-4.1-nano",
                 messages: [
-                    {role: "system", content: "Response only in English, Also Simplify Response"},
+                    {role: "system", content: "Response only in English, Also Simplify Response, Your name is ZIO"},
                     {role: "user", content: message},
                 ]
             })
