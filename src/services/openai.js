@@ -15,14 +15,6 @@ export async function generateResponse(message) {
       },
       body: JSON.stringify({message}),
     }
-    // let body = { message };
-
-
-    if(message.toLowerCase().includes("weather")) {
-      const location = message.split("in")[1]?.trim();
-      endpoint = `/weather?location=${encodeURIComponent(location)}`;
-      options = { method: "GET"};
-    }
 
     const res = await fetch(`${API_URL}${endpoint}`, options);
 
