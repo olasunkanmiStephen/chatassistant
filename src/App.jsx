@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./component/Headerr.jsx";
 import ChatMessage from "./component/ChatMessage.jsx";
 import { formatTime } from "./ChatUtils.js";
 import Loading from "./component/Loading.jsx";
 import ChatInput from "./component/ChatInput.jsx";
 import { generateResponse } from "./services/openai.js";
+import AuthForm from "./component/authForms.jsx";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -18,6 +20,17 @@ const App = () => {
       timestamp: new Date(),
     },
   ]);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("token")
+  );
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if(token) {
+      setIsAuthenticated(true);
+    }
+  }, [])
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -47,31 +60,53 @@ const App = () => {
     }, 1500);
   };
 
-  
   return (
-    <div className={`${darkMode ? 'bg-gray-600 text-white' : 'bg-white'} flex flex-col h-screen `}>
-      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <div className="flex-1 overflow-y-auto p-4 md:p-6">
-        <div className="max-w-5xl mx-auto space-y-4">
-          {messages.map((message) => (
-            <ChatMessage
-              key={message.id}
-              formatTime={formatTime}
-              messages={message}
-              darkMode={darkMode}
-            />
-          ))}
-          {isLoading && <Loading darkMode={darkMode} />}
-        </div>
+    <Router>
+      <div
+        className={`${
+          darkMode ? "bg-gray-600 text-white" : "bg-white"
+        } flex flex-col h-screen `}
+      >
+        <Routes>
+        <Route
+          path="/"
+          element={<AuthForm onLogin={() => setIsAuthenticated(true)} />}
+        />
+        <Route
+          path="/chat"
+          element={
+            isAuthenticated ? (
+              <>
+              <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+              <div className="flex-1 overflow-y-auto p-4 md:p-6">
+                <div className="max-w-5xl mx-auto space-y-4">
+                  {messages.map((message) => (
+                    <ChatMessage
+                      key={message.id}
+                      formatTime={formatTime}
+                      messages={message}
+                      darkMode={darkMode}
+                    />
+                  ))}
+                  {isLoading && <Loading darkMode={darkMode} />}
+                </div>
+              </div>
+              <ChatInput
+                darkMode={darkMode}
+                input={input}
+                setInput={setInput}
+                loading={isLoading}
+                handleSendMessage={handleSendMessage}
+              />
+            </>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+          />
+      </Routes>
       </div>
-      <ChatInput
-        darkMode={darkMode}
-        input={input}
-        setInput={setInput}
-        loading={isLoading}
-        handleSendMessage={handleSendMessage}
-      />
-    </div>
+    </Router>
   );
 };
 

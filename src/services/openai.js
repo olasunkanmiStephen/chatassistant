@@ -7,11 +7,15 @@ export async function generateResponse(message) {
   }
 
   try {
+    const token = localStorage.getItem("token")
+
+
     let endpoint = "/chat";
     let options = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({message}),
     }
