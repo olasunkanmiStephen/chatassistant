@@ -4,25 +4,26 @@ import { useNavigate } from "react-router-dom";
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const endpoint = isLogin
-        ? "http://localhost:5500/auth/login"
-        : "http://localhost:5500/auth/register";
+        ? "http://localhost:5000/auth/login"
+        : "http://localhost:5000/auth/register";
 
-      const res = await axios.post(endpoint, { email, password });
+      const res = await axios.post(endpoint, { username, email, password });
 
       if (isLogin) {
-        localStorage.setItem("token", res.data.token); 
+        localStorage.setItem("token", res.data.token);
         setMessage("Login successful");
-        navigate("/chat");;
+        navigate("/chat");
       } else {
         setMessage("Registration successful");
         setIsLogin(true);
@@ -41,8 +42,18 @@ export default function AuthForm() {
         <h2 className="text-2xl font-semibold mb-4 text-center">
           {isLogin ? "Login" : "Register"}
         </h2>
+        {!isLogin && (
+          <input
+            type="text"
+            placeholder="Username"
+            className="w-full p-2 mb-3 border rounded"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        )}
         <input
-          type=""
+          type="email"
           placeholder="Email"
           className="w-full p-2 mb-3 border rounded"
           value={email}
@@ -77,7 +88,15 @@ export default function AuthForm() {
           </button>
         </p>
 
-        {message && <p className="mt-3 text-center text-red-500">{message}</p>}
+        {message && (
+          <p
+            className={`mt-3 text-center ${
+              message.includes("successful") ? "text-green-500" : "text-red-500"
+            }`}
+          >
+            {message}
+          </p>
+        )}
       </form>
     </div>
   );
