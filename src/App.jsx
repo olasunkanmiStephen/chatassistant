@@ -22,13 +22,41 @@ const App = () => {
     !!localStorage.getItem("token")
   );
 
+  const handleEditMessage = async (id, newText) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(`https://op-aifc.vercel.app//chat/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ content: newText }),
+      });
+
+      const updated = await res.json();
+
+      if (res.ok) {
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === id ? { ...msg, content: updated.content } : msg
+          )
+        );
+      } else {
+        console.error("Failed to edit message:", updated.error);
+      }
+    } catch (err) {
+      console.error("Edit error:", err);
+    }
+  };
+
   const messagesEndRef = useRef(null);
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-
 
   const [userId, setUserId] = useState(null);
 
@@ -43,7 +71,6 @@ const App = () => {
     }
   }, []);
 
-
   useEffect(() => {
     const fetchHistory = async () => {
       const token = localStorage.getItem("token");
@@ -51,9 +78,8 @@ const App = () => {
         console.log("No token found, cannot fetch history");
       }
 
-      
       try {
-        const res = await fetch("http://localhost:5000/chat/history", {
+        const res = await fetch("https://op-aifc.vercel.app/chat/history", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -95,7 +121,7 @@ const App = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/chat", {
+      const res = await fetch("https://op-aifc.vercel.app/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -146,6 +172,7 @@ const App = () => {
                           formatTime={formatTime}
                           messages={message}
                           darkMode={darkMode}
+                          onEdit={handleEditMessage}
                         />
                       ))}
                       {isLoading && <Loading darkMode={darkMode} />}

@@ -15,8 +15,8 @@ export default function AuthForm() {
     e.preventDefault();
     try {
       const endpoint = isLogin
-        ? "http://localhost:5000/auth/login"
-        : "http://localhost:5000/auth/register";
+        ? "https://op-aifc.vercel.app/auth/login"
+        : "https://op-aifc.vercel.app/auth/register";
 
       const res = await axios.post(endpoint, { username, email, password });
 
