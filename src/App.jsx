@@ -43,6 +43,7 @@ const App = () => {
     }
   }, []);
 
+
   useEffect(() => {
     const fetchHistory = async () => {
       const token = localStorage.getItem("token");
@@ -50,6 +51,7 @@ const App = () => {
         console.log("No token found, cannot fetch history");
       }
 
+      
       try {
         const res = await fetch("http://localhost:5000/chat/history", {
           headers: { Authorization: `Bearer ${token}` },
