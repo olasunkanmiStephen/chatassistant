@@ -26,7 +26,7 @@ const App = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch(`https://op-aifc.vercel.app//chat/${id}`, {
+      const res = await fetch(`https://botmodel.onrender.com/chat/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ const App = () => {
       }
 
       try {
-        const res = await fetch("https://op-aifc.vercel.app/chat/history", {
+        const res = await fetch("https://botmodel.onrender.com/chat/history", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -121,7 +121,7 @@ const App = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("https://op-aifc.vercel.app/chat", {
+      const res = await fetch("https://botmodel.onrender.com/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
